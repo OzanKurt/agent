@@ -1,7 +1,7 @@
 Agent
 =====
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/jenssegers/agent.svg)](https://packagist.org/packages/jenssegers/agent) [![Total Downloads](http://img.shields.io/packagist/dm/jenssegers/agent.svg)](https://packagist.org/packages/jenssegers/agent) [![Build Status](http://img.shields.io/travis/jenssegers/agent.svg)](https://travis-ci.org/jenssegers/agent) [![Coverage Status](http://img.shields.io/coveralls/jenssegers/agent.svg)](https://coveralls.io/r/jenssegers/agent) [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/jenssegers)
+[![Latest Stable Version](http://img.shields.io/packagist/v/ozankurt/agent.svg)](https://packagist.org/packages/ozankurt/agent) [![Total Downloads](http://img.shields.io/packagist/dm/ozankurt/agent.svg)](https://packagist.org/packages/ozankurt/agent) [![Build Status](http://img.shields.io/travis/ozankurt/agent.svg)](https://travis-ci.org/ozankurt/agent) [![Coverage Status](http://img.shields.io/coveralls/ozankurt/agent.svg)](https://coveralls.io/r/ozankurt/agent) [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/ozankurt)
 
 A PHP desktop/mobile user agent parser with support for Laravel, based on [Mobile Detect](https://github.com/serbanghita/Mobile-Detect) with desktop support and additional functionality.
 
@@ -15,7 +15,7 @@ Installation
 Install using composer:
 
 ```bash
-composer require jenssegers/agent
+composer require ozankurt/agent
 ```
 
 Laravel (optional)
