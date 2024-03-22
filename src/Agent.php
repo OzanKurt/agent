@@ -9,6 +9,16 @@ use Detection\MobileDetect;
 class Agent extends MobileDetect
 {
     /**
+     * A type for the version() method indicating a string return value.
+     */
+    const VERSION_TYPE_STRING       = 'text';
+
+    /**
+     * A type for the version() method indicating a float return value.
+     */
+    const VERSION_TYPE_FLOAT        = 'float';
+
+    /**
      * List of desktop devices.
      * @var array
      */
@@ -106,7 +116,7 @@ class Agent extends MobileDetect
         return $rules;
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         if ($this->detectionType === static::DETECTION_TYPE_EXTENDED) {
             return static::getDetectionRulesExtended();
@@ -127,7 +137,7 @@ class Agent extends MobileDetect
         return static::$crawlerDetect;
     }
 
-    public static function getBrowsers()
+    public static function getBrowsers(): array
     {
         return static::mergeRules(
             static::$additionalBrowsers,
@@ -135,7 +145,7 @@ class Agent extends MobileDetect
         );
     }
 
-    public static function getOperatingSystems()
+    public static function getOperatingSystems(): array
     {
         return static::mergeRules(
             static::$operatingSystems,
@@ -156,7 +166,7 @@ class Agent extends MobileDetect
         return static::$desktopDevices;
     }
 
-    public static function getProperties()
+    public static function getProperties(): array
     {
         return static::mergeRules(
             static::$additionalProperties,
@@ -331,7 +341,7 @@ class Agent extends MobileDetect
         return "other";
     }
 
-    public function version($propertyName, $type = self::VERSION_TYPE_STRING)
+    public function version($propertyName, $type = self::VERSION_TYPE_STRING): float|bool|string
     {
         if (empty($propertyName)) {
             return false;
