@@ -4,9 +4,9 @@ namespace OzanKurt\Agent;
 
 use BadMethodCallException;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
-use Mobile_Detect;
+use Detection\MobileDetect;
 
-class Agent extends Mobile_Detect
+class Agent extends MobileDetect
 {
     /**
      * List of desktop devices.
