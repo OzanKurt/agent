@@ -116,15 +116,6 @@ class Agent extends MobileDetect
         return $rules;
     }
 
-    public function getRules(): array
-    {
-        if ($this->detectionType === static::DETECTION_TYPE_EXTENDED) {
-            return static::getDetectionRulesExtended();
-        }
-
-        return static::getMobileDetectionRules();
-    }
-
     /**
      * @return CrawlerDetect
      */
@@ -236,6 +227,8 @@ class Agent extends MobileDetect
      */
     public function browser($userAgent = null)
     {
+        $userAgent ??= $this->userAgent;
+
         return $this->findDetectionRulesAgainstUA(static::getBrowsers(), $userAgent);
     }
 
@@ -246,6 +239,8 @@ class Agent extends MobileDetect
      */
     public function platform($userAgent = null)
     {
+        $userAgent ??= $this->userAgent;
+
         return $this->findDetectionRulesAgainstUA(static::getPlatforms(), $userAgent);
     }
 
@@ -256,6 +251,8 @@ class Agent extends MobileDetect
      */
     public function device($userAgent = null)
     {
+        $userAgent ??= $this->userAgent;
+
         $rules = static::mergeRules(
             static::getDesktopDevices(),
             static::getPhoneDevices(),
@@ -293,6 +290,9 @@ class Agent extends MobileDetect
      */
     public function isPhone($userAgent = null, $httpHeaders = null)
     {
+        $userAgent ??= $this->userAgent;
+        $httpHeaders ??= $this->httpHeaders;
+
         return $this->isMobile($userAgent, $httpHeaders) && !$this->isTablet($userAgent, $httpHeaders);
     }
 
@@ -303,6 +303,8 @@ class Agent extends MobileDetect
      */
     public function robot($userAgent = null)
     {
+        $userAgent ??= $this->userAgent;
+
         if ($this->getCrawlerDetect()->isCrawler($userAgent ?: $this->userAgent)) {
             return ucfirst($this->getCrawlerDetect()->getMatches());
         }
@@ -317,6 +319,8 @@ class Agent extends MobileDetect
      */
     public function isRobot($userAgent = null)
     {
+        $userAgent ??= $this->userAgent;
+
         return $this->getCrawlerDetect()->isCrawler($userAgent ?: $this->userAgent);
     }
 
@@ -328,6 +332,9 @@ class Agent extends MobileDetect
      */
     public function deviceType($userAgent = null, $httpHeaders = null)
     {
+        $userAgent ??= $this->userAgent;
+        $httpHeaders ??= $this->httpHeaders;
+
         if ($this->isDesktop($userAgent, $httpHeaders)) {
             return "desktop";
         } elseif ($this->isPhone($userAgent, $httpHeaders)) {
