@@ -87,6 +87,26 @@ class Agent extends MobileDetect
     ];
 
     /**
+     * Utilities.
+     *
+     * @var array
+     */
+    protected static $utilities = array(
+        // Experimental. When a mobile device wants to switch to 'Desktop Mode'.
+        // http://scottcate.com/technology/windows-phone-8-ie10-desktop-or-mobile/
+        // https://github.com/serbanghita/Mobile-Detect/issues/57#issuecomment-15024011
+        // https://developers.facebook.com/docs/sharing/webmasters/crawler/
+        'Bot'         => 'Googlebot|facebookexternalhit|Google-AMPHTML|s~amp-validator|AdsBot-Google|Google Keyword Suggestion|Facebot|YandexBot|YandexMobileBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|Exabot|MJ12bot|YandexImages|TurnitinBot|Pingdom|contentkingapp|AspiegelBot|Semrush|DotBot|PetalBot|MetadataScraper',
+        'MobileBot'   => 'Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker/M1A1-R2D2',
+        'DesktopMode' => 'WPDesktop',
+        'TV'          => 'SonyDTV|HbbTV', // experimental
+        'WebKit'      => '(webkit)[ /]([\w.]+)',
+        // @todo: Include JXD consoles.
+        'Console'     => '\b(Nintendo|Nintendo WiiU|Nintendo 3DS|Nintendo Switch|PLAYSTATION|Xbox)\b',
+        'Watch'       => 'SM-V700',
+    );
+
+    /**
      * @var CrawlerDetect
      */
     protected static $crawlerDetect;
@@ -114,6 +134,16 @@ class Agent extends MobileDetect
         }
 
         return $rules;
+    }
+
+    /**
+     * Retrieve the list of known utilities.
+     *
+     * @return array List of utilities.
+     */
+    public static function getUtilities()
+    {
+        return self::$utilities;
     }
 
     /**
@@ -211,9 +241,18 @@ class Agent extends MobileDetect
                 continue;
             }
 
-            // Check match
-            if ($this->match($regex, $userAgent ?? '')) {
-                return $key ?: reset($this->matchesArray);
+            // If regex is an array, loop through each regex
+            if (is_array($regex)) {
+                foreach ($regex as $subRegex) {
+                    if ($this->match($subRegex, $userAgent ?? '')) {
+                        return $key ?: reset($this->matchesArray);
+                    }
+                }
+            } else {
+                // If regex is a string, check match directly
+                if ($this->match($regex, $userAgent ?? '')) {
+                    return $key ?: reset($this->matchesArray);
+                }
             }
         }
 
