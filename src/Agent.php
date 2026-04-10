@@ -19,6 +19,14 @@ class Agent extends MobileDetect
     const VERSION_TYPE_FLOAT        = 'float';
 
     /**
+     * Regex used to extract version numbers from property patterns.
+     *
+     * Mirrors the `VERSION_REGEX` constant in the upstream MobileDetect class
+     * (which is declared `private` and therefore not inheritable).
+     */
+    const VERSION_REGEX             = '([\w._\+]+)';
+
+    /**
      * List of desktop devices.
      * @var array
      */
@@ -292,11 +300,13 @@ class Agent extends MobileDetect
     {
         $userAgent ??= $this->userAgent;
 
+        // Note: upstream MobileDetect dropped the static $utilities array, so
+        // getUtilities() no longer exists. Device detection still works reliably
+        // from the desktop/phone/tablet rule sets.
         $rules = static::mergeRules(
             static::getDesktopDevices(),
             static::getPhoneDevices(),
-            static::getTabletDevices(),
-            static::getUtilities()
+            static::getTabletDevices()
         );
 
         return $this->findDetectionRulesAgainstUA($rules, $userAgent);
@@ -412,7 +422,7 @@ class Agent extends MobileDetect
                     $propertyMatchString = implode("|", $propertyMatchString);
                 }
 
-                $propertyPattern = str_replace('[VER]', self::VER, $propertyMatchString);
+                $propertyPattern = str_replace('[VER]', self::VERSION_REGEX, $propertyMatchString);
 
                 // Identify and extract the version.
                 preg_match(sprintf('#%s#is', $propertyPattern), $this->userAgent, $match);
