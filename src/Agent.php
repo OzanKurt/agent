@@ -464,18 +464,19 @@ class Agent extends MobileDetect
 
     /**
      * @inheritdoc
+     *
+     * Mirrors the upstream `MobileDetect::__call` signature so consumers can
+     * resolve `^4.8` to the latest 4.x without hitting a covariance error.
+     * The body delegates to `is()` (the modern replacement for the old
+     * `setDetectionType()` + `matchUAAgainstKey()` pair, both removed in
+     * mobiledetect/mobiledetectlib 4.x).
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments): bool
     {
-        // Make sure the name starts with 'is', otherwise
-        if (strpos($name, 'is') !== 0) {
+        if (!str_starts_with($name, 'is')) {
             throw new BadMethodCallException("No such method exists: $name");
         }
 
-        $this->setDetectionType(self::DETECTION_TYPE_EXTENDED);
-
-        $key = substr($name, 2);
-
-        return $this->matchUAAgainstKey($key);
+        return $this->is(substr($name, 2));
     }
 }
